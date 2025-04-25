@@ -9,7 +9,7 @@ export async function refineUserStory(
 ): Promise<RefinementResponse> {
   const openai = createOpenAI({ apiKey });
   const { object } = await generateObject({
-    model: openai.chat("o4-mini"),
+    model: openai.chat("o3-mini"),
     system: systemPrompt,
     schema: refinementSchema,
     prompt: `Refine the following ticket: ${storyDescription}`,
@@ -50,7 +50,7 @@ ${feedback}
 Please generate a new refinement incorporating this feedback.`;
 
   const { object } = await generateObject({
-    model: openai.chat("o4-mini"),
+    model: openai.chat("o3-mini"),
     system: systemPrompt,
     schema: refinementSchema,
     prompt: feedbackPrompt,
