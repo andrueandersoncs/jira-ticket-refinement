@@ -32,15 +32,20 @@ export default function Home() {
     useState<RefinementResponse | null>(null);
   const [isRefining, setIsRefining] = useState(false);
 
-  const loadBacklogItems = async () => {
-    if (jiraUrl && jiraUsername && jiraProject && apiKey) {
+  const loadBacklogItems = async (
+    url: string = jiraUrl,
+    username: string = jiraUsername,
+    project: string = jiraProject,
+    token: string = apiKey
+  ) => {
+    if (url && username && project && token) {
       setIsLoading(true);
       try {
         const items = await fetchBacklogItems({
-          url: jiraUrl,
-          username: jiraUsername,
-          project: jiraProject,
-          token: apiKey,
+          url,
+          username,
+          project,
+          token,
         });
         setBacklogItems(items.issues || []);
       } catch (error) {
@@ -61,6 +66,12 @@ export default function Home() {
       setJiraProject(settings.jiraProject);
       setApiKey(settings.apiKey);
       setOpenaiKey(settings.openaiKey);
+      loadBacklogItems(
+        settings.jiraUrl,
+        settings.jiraUsername,
+        settings.jiraProject,
+        settings.apiKey
+      );
     } else {
       setActiveTab("settings");
     }
